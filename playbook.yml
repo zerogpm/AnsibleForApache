@@ -1,0 +1,48 @@
+---
+
+- hosts: all
+
+  tasks:
+
+    - name: Upgrate APT Package Manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+
+    - name: Install aptitude
+      become: true
+      apt:
+        name: aptitude
+
+    - name: Upgrade installed packages
+      become: true
+      apt:
+        upgrade: safe
+
+    - name: Install Git
+      become: true
+      apt:
+        name: git
+
+    - name: Install Nginx web Server
+      become: true
+      apt:
+        name: nginx
+        state: latest
+
+    - name: ADD PHP 7 PPA repository
+      become: true
+      apt_repository:
+        repo: 'ppa:ondrej/php'
+
+    - name: Install PHP CLI
+      become: true
+      apt:
+        name: php7.2-cli
+        state: latest
+
+    - name: Install MySql DB server
+      become: true
+      apt:
+        name: mysql-server
+        state: latest
