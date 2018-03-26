@@ -2,6 +2,9 @@
 
 - hosts: all
 
+  vars:
+    apache_site_avaialble: /etc/apache2/sites-available
+
   tasks:
 
     - name: Upgrate APT Package Manager repositories cache
@@ -21,6 +24,7 @@
       with_items:
         - zip
         - unzip
+        - build-essential
 
     - name: Upgrade installed packages
       become: true
@@ -73,6 +77,12 @@
       with_items:
         - openssh-server
         - openssh-client
+
+    - name: Add Apache config template
+      become: true
+      template:
+        src: templates/apache.conf
+        dest: "{{ apache_site_avaialble }}"
       tags:
         - test
 
