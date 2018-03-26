@@ -27,15 +27,11 @@
       apt:
         upgrade: safe
 
-    - name: Install Git
+    - name: Install Apache web Server
       become: true
       apt:
-        name: git
-
-    - name: Install Nginx web Server
-      become: true
-      apt:
-        name: nginx
+        name: apache2
+        update_cache: yes
         state: latest
 
     - name: ADD PHP 7 PPA repository
@@ -51,7 +47,6 @@
       with_items:
         - php7.2-cli
         - php7.2-curl
-        - php7.2-fpm
         - php7.2-intl
         - php7.2-mysql
         - php7.2-json
@@ -69,9 +64,3 @@
       file:
         path: /usr/local/bin/composer
         mode: "a+x"
-
-    - name: Install MySql DB server
-      become: true
-      apt:
-        name: mysql-server
-        state: latest
