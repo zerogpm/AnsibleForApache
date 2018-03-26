@@ -65,6 +65,17 @@
         path: /usr/local/bin/composer
         mode: "a+x"
 
+    - name: Install Open SSL
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - openssh-server
+        - openssh-client
+      tags:
+        - test
+
   handlers:
     - name: restart Apache2
       become: true
