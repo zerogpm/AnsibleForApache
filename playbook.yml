@@ -64,3 +64,10 @@
       file:
         path: /usr/local/bin/composer
         mode: "a+x"
+
+  handlers:
+    - name: restart Apache2
+      become: true
+      service:
+        name: apache2
+        state: restarted
