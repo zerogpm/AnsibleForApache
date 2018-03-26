@@ -86,6 +86,14 @@
       tags:
         - test
 
+    - name: Add Apache config template
+      become: true
+      template:
+        src: templates/ports.conf
+        dest: /etc/apache2
+      tags:
+        - test
+
   handlers:
     - name: restart Apache2
       become: true
