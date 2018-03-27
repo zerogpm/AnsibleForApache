@@ -69,7 +69,12 @@
         - php7.2-mysql
         - php7.2-json
         - php7.2-xml
+        - php7.2-gd
         - php7.2-mbstring
+        - php7.2-common
+        - php-pear
+      tags:
+        - test
 
     - name: Download Composer
       script: scripts/install_composer.sh
@@ -89,8 +94,12 @@
       template:
         src: templates/apache.conf
         dest: "{{ apache_site_available }}"
-      tags:
-        - test
+
+    - name: Add phpcustom ini
+      become: true
+      template:
+        src: templates/phpcustom.ini
+        dest: /etc/php/7.2/mods-available
 
     - name: Edit dir.conf
       become: true
