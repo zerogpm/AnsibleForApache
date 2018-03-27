@@ -3,7 +3,7 @@
 - hosts: all
 
   vars:
-    apache_site_avaialble: /etc/apache2/sites-available
+    apache_site_available: /etc/apache2/sites-available
 
   tasks:
 
@@ -61,6 +61,33 @@
         - php7.2-json
         - php7.2-xml
         - php7.2-mbstring
+
+    - name: Download Composer
+      script: scripts/install_composer.sh
+
+    - name: Move Composer globally
+      become: true
+      command: "mv composer.phar /usr/local/bin/composer"
+
+    - name: Set Permission on Composer
+      become: true
+      file:
+        path: /usr/local/bin/composer
+        mode: "a+x"
+
+    - name: Add Apache config template
+      become: true
+      template:
+        src: templates/apache.conf
+        dest: "{{ apache_site_available }}"
+      tags:
+        - test
+
+    - name: Edit dir.conf
+      become: true
+      template:
+        src: templates/dir.conf
+        dest: /etc/apache2/mods-available
 
   handlers:
     - name: restart Apache2
