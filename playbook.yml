@@ -17,6 +17,15 @@
       apt:
         name: aptitude
 
+    - name: Install Open SSL
+      become: true
+      apt:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - openssh-server
+        - openssh-client
+
     - name: Install low-level utilities
       become: true
       apt:
