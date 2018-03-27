@@ -43,6 +43,11 @@
       apt_repository:
         repo: 'ppa:ondrej/php'
 
+    - name: Install PHP 7.2
+      become: true
+      apt:
+        name: php7.2
+
     - name: Install PHP packages
       become: true
       apt:
@@ -54,45 +59,8 @@
         - php7.2-intl
         - php7.2-mysql
         - php7.2-json
+        - php7.2-xml
         - php7.2-mbstring
-
-    - name: Download Composer
-      script: scripts/install_composer.sh
-
-    - name: Move Composer globally
-      become: true
-      command: "mv composer.phar /usr/local/bin/composer"
-
-    - name: Set Permission on Composer
-      become: true
-      file:
-        path: /usr/local/bin/composer
-        mode: "a+x"
-
-    - name: Install Open SSL
-      become: true
-      apt:
-        name: "{{ item }}"
-        state: latest
-      with_items:
-        - openssh-server
-        - openssh-client
-
-    - name: Add Apache config template
-      become: true
-      template:
-        src: templates/apache.conf
-        dest: "{{ apache_site_avaialble }}"
-      tags:
-        - test
-
-    - name: Add Apache config template
-      become: true
-      template:
-        src: templates/ports.conf
-        dest: /etc/apache2
-      tags:
-        - test
 
   handlers:
     - name: restart Apache2
